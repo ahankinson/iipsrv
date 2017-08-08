@@ -376,8 +376,9 @@ void CVT::send( Session* session ){
 #endif
 
   if( session->out->putStr( (const char*) session->jpeg->getHeader(), len ) != len ){
-    if( session->loglevel >= 1 ){
-      *(session->logfile) << "CVT :: Error writing jpeg header" << endl;
+    if( session->loglevel >= 1 ) {
+      string errfn = (*session->image)->getImagePath();
+      *(session->logfile) << "CVT :: Error writing jpeg header: " << errfn << endl;
     }
   }
 
@@ -387,8 +388,9 @@ void CVT::send( Session* session ){
 
   // Flush our block of data
   if( session->out->flush() == -1 ) {
-    if( session->loglevel >= 1 ){
-      *(session->logfile) << "CVT :: Error flushing jpeg data" << endl;
+    if( session->loglevel >= 1 ) {
+      string errfn = (*session->image)->getImagePath();
+      *(session->logfile) << "CVT :: Error flushing jpeg data: " << errfn << endl;
     }
   }
 
@@ -429,8 +431,9 @@ void CVT::send( Session* session ){
 
     // Send this strip out to the client
     if( len != session->out->putStr( (const char*) output, len ) ){
-      if( session->loglevel >= 1 ){
-	*(session->logfile) << "CVT :: Error writing jpeg strip data: " << len << endl;
+      if( session->loglevel >= 1 ) {
+        string errfn = (*session->image)->getImagePath();
+        *(session->logfile) << "CVT :: Error writing jpeg strip data: " << len << " file: " << errfn << endl;
       }
     }
 
@@ -442,7 +445,8 @@ void CVT::send( Session* session ){
     // Flush our block of data
     if( session->out->flush() == -1 ) {
       if( session->loglevel >= 1 ){
-	*(session->logfile) << "CVT :: Error flushing jpeg data" << endl;
+        string errfn = (*session->image)->getImagePath();
+        *(session->logfile) << "CVT :: Error flushing jpeg data: " << errfn << endl;
       }
     }
 
@@ -458,8 +462,9 @@ void CVT::send( Session* session ){
 #endif
 
   if( session->out->putStr( (const char*) output, len ) != len ){
-    if( session->loglevel >= 1 ){
-      *(session->logfile) << "CVT :: Error writing jpeg EOI markers" << endl;
+    if( session->loglevel >= 1 ) {
+      string errfn = (*session->image)->getImagePath();
+      *(session->logfile) << "CVT :: Error writing jpeg EOI markers: " << errfn << endl;
     }
   }
 
@@ -474,8 +479,9 @@ void CVT::send( Session* session ){
 #endif
 
   if( session->out->flush()  == -1 ) {
-    if( session->loglevel >= 1 ){
-      *(session->logfile) << "CVT :: Error flushing jpeg tile" << endl;
+    if( session->loglevel >= 1 ) {
+      string errfn = (*session->image)->getImagePath();
+      *(session->logfile) << "CVT :: Error flushing jpeg tile: " << errfn << endl;
     }
   }
 
